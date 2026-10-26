@@ -31,6 +31,12 @@ The public/publishable Supabase key is safe to include in frontend configuration
 
 ## Deploy the frontend
 
+### GitHub Pages
+
+The included GitHub Actions workflow builds and deploys the site to the repository Pages URL on every push to `main`. In the repository, open **Settings → Pages** and set the build and deployment source to **GitHub Actions**. The workflow builds with the repository subpath and the public Supabase project settings.
+
+### Render Static Site
+
 Connect this repository to Render as a **Static Site** using the included `render.yaml`, or use these settings:
 
 - Build command: `npm install && npm run build`
