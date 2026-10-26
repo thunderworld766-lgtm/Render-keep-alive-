@@ -30,11 +30,8 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .topbar-right { display: flex; align-items: center; gap: 20px; }
 .secure-label { display: flex; align-items: center; gap: 8px; color: #8c9ab0; font-size: 12px; }
 .secure-dot, .footer-pulse { width: 7px; height: 7px; border-radius: 50%; background: #49d49a; box-shadow: 0 0 10px rgba(73, 212, 154, .56); }
-.topbar-divider { width: 1px; height: 21px; background: #202b3c; }
 .icon-button { border: 0; display: inline-grid; place-items: center; padding: 0; background: transparent; color: #8290a7; cursor: pointer; }
 .icon-button:hover { color: #dce6f7; }
-.logout-button { width: 32px; height: 32px; border-radius: 8px; }
-.logout-button:hover { background: #131e30; }
 .dashboard { max-width: 1060px; padding: 66px 30px 0; margin: 0 auto; }
 .welcome-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 38px; }
 .eyebrow { color: #7788a4; font-size: 10px; line-height: 1.4; font-weight: 700; letter-spacing: 1.35px; }
@@ -160,19 +157,6 @@ h1, h2, h3, p { margin: 0; }
 .toast-success svg { color: #58d39c; }
 .toast-error svg { color: #f18890; }
 .spin { animation: spin .85s linear infinite; }
-.auth-screen { min-height: 100vh; display: grid; place-items: center; padding: 22px; background: radial-gradient(ellipse at 50% 20%, rgba(48, 83, 154, .16), transparent 54%), #080e19; }
-.auth-card { width: min(100%, 390px); padding: 30px; border: 1px solid #1e2d43; border-radius: 14px; background: linear-gradient(145deg, #0e1929, #0b1421); box-shadow: 0 20px 70px #0005; }
-.auth-card .brand { margin-bottom: 36px; }
-.auth-icon { width: 40px; height: 40px; display: grid; place-items: center; margin-bottom: 17px; border: 1px solid #2b4168; border-radius: 10px; color: #86a9ff; background: #172746; }
-.auth-card h1 { color: #ebf0f9; font: 600 24px "Space Grotesk", sans-serif; letter-spacing: -.6px; }
-.auth-card > p { margin-top: 8px; color: #8d9bb1; font-size: 12px; line-height: 1.7; }
-.auth-form { display: grid; gap: 10px; margin-top: 22px; }
-.auth-form input { height: 42px; padding: 0 12px; border: 1px solid #2a3b53; border-radius: 7px; color: #e4ebf7; background: #09111d; font-size: 12px; }
-.auth-form input::placeholder { color: #687991; }
-.button-wide { width: 100%; min-height: 41px; }
-.auth-foot { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 20px; color: #71819a; font-size: 10px; }
-.auth-foot svg { color: #59c99a; }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); border: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 

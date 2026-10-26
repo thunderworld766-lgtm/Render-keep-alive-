@@ -1,14 +1,8 @@
-import { getBearerToken, corsHeaders, jsonResponse } from "../_shared/http.ts";
+import { corsHeaders, jsonResponse } from "../_shared/http.ts";
 import { checkWebsite, getSupabaseAdmin, normalizeAndValidateUrl } from "../_shared/monitor.ts";
-
-function authorized(request: Request) {
-  const token = Deno.env.get("ADMIN_TOKEN");
-  return Boolean(token && getBearerToken(request) === token);
-}
 
 Deno.serve(async (request) => {
   if (request.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  if (!authorized(request)) return jsonResponse({ error: "Invalid dashboard access token." }, 401);
 
   try {
     const supabase = getSupabaseAdmin();

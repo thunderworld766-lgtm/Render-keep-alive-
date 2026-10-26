@@ -1,6 +1,6 @@
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-cron-secret",
+  "Access-Control-Allow-Headers": "apikey, content-type, x-cron-secret",
   "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
 };
 
@@ -9,9 +9,4 @@ export function jsonResponse(body: unknown, status = 200) {
     status,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
-}
-
-export function getBearerToken(request: Request) {
-  const authorization = request.headers.get("authorization") ?? "";
-  return authorization.startsWith("Bearer ") ? authorization.slice(7) : "";
 }

@@ -2,19 +2,6 @@ import type { CheckResult, Website } from "./types";
 
 const projectUrl = import.meta.env.VITE_SUPABASE_URL?.replace(/\/+$/, "");
 const publicKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const tokenStorageKey = "renderkeep-admin-token";
-
-export function getSavedToken() {
-  return sessionStorage.getItem(tokenStorageKey) ?? "";
-}
-
-export function saveToken(token: string) {
-  sessionStorage.setItem(tokenStorageKey, token);
-}
-
-export function clearToken() {
-  sessionStorage.removeItem(tokenStorageKey);
-}
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   if (!projectUrl || !publicKey) {
@@ -26,7 +13,6 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     headers: {
       "Content-Type": "application/json",
       apikey: publicKey,
-      Authorization: `Bearer ${getSavedToken()}`,
       ...options.headers,
     },
   });

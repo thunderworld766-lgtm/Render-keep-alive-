@@ -9,10 +9,9 @@ Keep Your Websites Alive. RenderKeep is a responsive uptime dashboard backed by 
 
    - `SUPABASE_URL` — your Supabase project URL.
    - `SUPABASE_SERVICE_ROLE_KEY` — the project service-role secret key. Never expose this key in a browser.
-   - `ADMIN_TOKEN` — a long, randomly generated dashboard access token. This is the current single-admin access gate.
    - `MONITOR_CRON_SECRET` — a separate long, randomly generated secret used only by the scheduled monitor.
 
-   For the Supabase CLI, link the project and run `supabase secrets set SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... ADMIN_TOKEN=... MONITOR_CRON_SECRET=...`, then deploy with `supabase functions deploy api --no-verify-jwt` and `supabase functions deploy monitor --no-verify-jwt`. Run these commands in a trusted terminal; do not commit actual values.
+   For the Supabase CLI, link the project and run `supabase secrets set SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... MONITOR_CRON_SECRET=...`, then deploy with `supabase functions deploy api --no-verify-jwt` and `supabase functions deploy monitor --no-verify-jwt`. Run these commands in a trusted terminal; do not commit actual values.
 3. In Supabase Dashboard → **Project Settings → Vault**, save two secrets with these exact names:
 
    - `renderkeep_supabase_url` — the project URL.
@@ -27,7 +26,6 @@ The public/publishable Supabase key is safe to include in frontend configuration
 
 1. Copy `.env.example` to `.env.local` and set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
 2. Run `npm install`, then `npm run dev`.
-3. Enter the `ADMIN_TOKEN` value configured in Supabase to open the dashboard.
 
 ## Deploy the frontend
 
@@ -47,4 +45,4 @@ The Supabase project is the backend and scheduler; the frontend is a static site
 
 ## Security and future authentication
 
-The database has row-level security enabled and no public table policies. All database access uses the service-role key inside Edge Functions only; dashboard requests require the separate admin token. The token is stored in session storage and clears when the browser session ends. Replace this single-admin gate with Supabase Auth and user-scoped RLS before supporting multiple accounts.
+The dashboard and its website-management API are public: anyone can view the monitored websites, add or remove them, trigger checks, and view check history. The database has row-level security enabled and no public table policies; database access uses the service-role key inside Edge Functions only. Never put the service-role key, cron secret, or database password in the browser. Add Supabase Auth and user-scoped RLS before storing private websites or supporting multiple accounts.

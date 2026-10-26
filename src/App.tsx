@@ -9,8 +9,6 @@ import {
   ExternalLink,
   Globe2,
   LoaderCircle,
-  LockKeyhole,
-  LogOut,
   Plus,
   RefreshCw,
   ShieldCheck,
@@ -18,7 +16,7 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { api, clearToken, getSavedToken, saveToken } from "./api";
+import { api } from "./api";
 import type { CheckResult, MonitorState, Website } from "./types";
 
 type Notice = { kind: "success" | "error"; text: string } | null;
@@ -56,53 +54,6 @@ function StateBadge({ state }: { state: MonitorState }) {
       <span className="state-dot" />
       {state}
     </span>
-  );
-}
-
-function LoginScreen({ onLogin }: { onLogin: (token: string) => Promise<void> }) {
-  const [token, setToken] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-
-  async function submit(event: FormEvent) {
-    event.preventDefault();
-    setBusy(true);
-    setError("");
-    try {
-      await onLogin(token);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not connect.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  return (
-    <main className="auth-screen">
-      <div className="auth-card">
-        <Brand />
-        <div className="auth-icon"><LockKeyhole size={21} /></div>
-        <h1>Your sites, in sight.</h1>
-        <p>Enter your dashboard access token to open your private monitoring workspace.</p>
-        <form onSubmit={submit} className="auth-form">
-          <label className="sr-only" htmlFor="admin-token">Dashboard access token</label>
-          <input
-            id="admin-token"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Dashboard access token"
-            value={token}
-            onChange={(event) => setToken(event.target.value)}
-            required
-          />
-          <button className="button button-primary button-wide" disabled={busy}>
-            {busy ? <LoaderCircle className="spin" size={17} /> : "Open dashboard"}
-          </button>
-        </form>
-        {error && <p className="form-error">{error}</p>}
-        <div className="auth-foot"><ShieldCheck size={15} /> Your token stays in this browser session.</div>
-      </div>
-    </main>
   );
 }
 
@@ -242,7 +193,6 @@ function HistoryModal({ website, history, loading, onClose }: {
 }
 
 export default function App() {
-  const [token, setToken] = useState(getSavedToken);
   const [websites, setWebsites] = useState<Website[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -271,13 +221,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!token) return;
     loadWebsites().catch((error) => {
-      clearToken();
-      setToken("");
       setNotice({ kind: "error", text: error instanceof Error ? error.message : "Could not connect to RenderKeep." });
     });
-  }, [token, loadWebsites]);
+  }, [loadWebsites]);
 
   useEffect(() => {
     if (!notice) return;
@@ -290,19 +237,6 @@ export default function App() {
     down: websites.filter((website) => website.current_state === "down").length,
     unknown: websites.filter((website) => website.current_state === "unknown").length,
   }), [websites]);
-
-  async function login(nextToken: string) {
-    saveToken(nextToken);
-    setToken(nextToken);
-    try {
-      const result = await api.list();
-      setWebsites(result.websites);
-    } catch (error) {
-      clearToken();
-      setToken("");
-      throw error;
-    }
-  }
 
   async function addWebsite(url: string) {
     setAdding(true);
@@ -364,8 +298,6 @@ export default function App() {
     }
   }
 
-  if (!token) return <LoginScreen onLogin={login} />;
-
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -373,8 +305,6 @@ export default function App() {
           <Brand />
           <div className="topbar-right">
             <span className="secure-label"><span className="secure-dot" /> Monitoring active</span>
-            <span className="topbar-divider" />
-            <button className="icon-button logout-button" onClick={() => { clearToken(); setToken(""); }} aria-label="Lock dashboard"><LogOut size={17} /></button>
           </div>
         </div>
       </header>
